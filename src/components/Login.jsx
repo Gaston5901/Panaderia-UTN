@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Login = ({ onBack }) => {
   const [isSignUp, setIsSignUp] = useState(true); // true: registro, false: login
@@ -15,20 +16,13 @@ const Login = ({ onBack }) => {
         setError("Las contraseñas no coinciden");
         return;
       }
-      // Verificar si el usuario ya existe
       try {
-        const res = await fetch(`http://localhost:3001/usuarios?username=${email}`);
-        const users = await res.json();
-        if (users.length > 0) {
+        const res = await axios.get(`http://localhost:3001/usuarios?username=${email}`);
+        if (res.data.length > 0) {
           setError("El usuario ya existe");
           return;
         }
-        // Registrar usuario con rol 'usuario'
-        await fetch('http://localhost:3001/usuarios', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: email, password, rol: 'usuario' })
-        });
+        await axios.post('http://localhost:3001/usuarios', { username: email, password, rol: 'usuario' });
         alert('Usuario registrado correctamente');
         setIsSignUp(false);
         setEmail(""); setPassword(""); setConfirmPassword("");
@@ -36,13 +30,10 @@ const Login = ({ onBack }) => {
         setError("Error al conectar con la base de datos");
       }
     } else {
-      // Login
       try {
-        const response = await fetch(`http://localhost:3001/usuarios?username=${email}&password=${password}`);
-        const data = await response.json();
-        if (data.length > 0) {
-          // Guardar usuario logueado en localStorage
-          localStorage.setItem('usuario', JSON.stringify(data[0]));
+        const response = await axios.get(`http://localhost:3001/usuarios?username=${email}&password=${password}`);
+        if (response.data.length > 0) {
+          localStorage.setItem('usuario', JSON.stringify(response.data[0]));
           alert(`Bienvenido, ${email}!`);
           window.location.reload();
         } else {

@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Pedidos = () => {
   const [productos, setProductos] = useState([]);
@@ -7,9 +9,8 @@ const Pedidos = () => {
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   useEffect(() => {
-    fetch("http://localhost:3001/productos")
-      .then(res => res.json())
-      .then(setProductos);
+    axios.get("http://localhost:3001/productos")
+      .then(res => setProductos(res.data));
   }, []);
 
   const handleChange = e => {
@@ -22,15 +23,11 @@ const Pedidos = () => {
       setMensaje("Selecciona producto y cantidad");
       return;
     }
-    await fetch("http://localhost:3001/pedidos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        nombre: usuario.username,
-        producto: pedido.producto,
-        cantidad: pedido.cantidad,
-        fecha: new Date().toLocaleString()
-      })
+    await axios.post("http://localhost:3001/pedidos", {
+      nombre: usuario.username,
+      producto: pedido.producto,
+      cantidad: pedido.cantidad,
+      fecha: new Date().toLocaleString()
     });
     setMensaje("¡Pedido realizado!");
     setPedido({ producto: "", cantidad: 1 });
