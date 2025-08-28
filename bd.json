@@ -13,7 +13,7 @@
       "nombre": "Pan francés",
       "precio": "$500",
       "descripcion": "Clásico pan crocante, ideal para acompañar tus comidas.",
-      "imagen": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
+      "imagen": "src/img/panfrances.png"
     },
     {
       "id": 2,
