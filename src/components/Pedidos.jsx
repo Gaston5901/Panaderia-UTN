@@ -6,6 +6,7 @@ const Pedidos = () => {
   const [productos, setProductos] = useState([]);
   const [pedido, setPedido] = useState({ producto: "", cantidad: 1 });
   const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] = useState(false);
   const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   useEffect(() => {
@@ -23,14 +24,25 @@ const Pedidos = () => {
       setMensaje("Selecciona producto y cantidad");
       return;
     }
-    await axios.post("http://localhost:3001/pedidos", {
-      nombre: usuario.username,
-      producto: pedido.producto,
-      cantidad: pedido.cantidad,
-      fecha: new Date().toLocaleString()
-    });
-    setMensaje("¡Pedido realizado!");
-    setPedido({ producto: "", cantidad: 1 });
+    setCargando(true);
+    try {
+      await axios.post("http://localhost:3001/pedidos", {
+        nombre: usuario.username,
+        producto: pedido.producto,
+        cantidad: pedido.cantidad,
+        fecha: new Date().toLocaleString()
+      });
+      setMensaje("¡Pedido realizado!");
+      setPedido({ producto: "", cantidad: 1 });
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setMensaje("No se pudo realizar el pedido porque el sistema no está conectado. (Colección 'pedidos' no encontrada)");
+      } else {
+        setMensaje("Error al realizar el pedido. Intenta de nuevo o contacta al administrador.");
+      }
+    }
+  setTimeout(() => setMensaje("") , 3000);
+    setCargando(false);
   };
 
   return (
@@ -44,9 +56,19 @@ const Pedidos = () => {
           ))}
         </select>
         <input type="number" name="cantidad" min="1" value={pedido.cantidad} onChange={handleChange} required placeholder="Cantidad" />
-        <button type="submit">Encargar</button>
+        <button type="submit" disabled={cargando} style={{position:'relative'}}>
+          {cargando ? (
+            <span style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <span className="spinner" style={{width:18,height:18,border:'2px solid #ccc',borderTop:'2px solid #388e3c',borderRadius:'50%',display:'inline-block',marginRight:8,animation:'spin 1s linear infinite'}}></span>
+              Enviando...
+            </span>
+          ) : "Encargar"}
+        </button>
       </form>
-      {mensaje && <div style={{marginTop:10,color:'#388e3c'}}>{mensaje}</div>}
+      {mensaje && <div style={{marginTop:10,color: mensaje.includes('Error') ? '#d32f2f' : '#388e3c'}}>{mensaje}</div>}
+      <style>{`
+        @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+      `}</style>
     </div>
   );
 };

@@ -11,6 +11,12 @@
       "password": "123",
       "rol": "admin",
       "id": "37ab"
+    },
+    {
+      "id": "f525",
+      "username": "d",
+      "password": "4",
+      "rol": "usuario"
     }
   ],
   "productos": [
@@ -22,18 +28,25 @@
       "id": "1"
     },
     {
-      "id": "2",
       "nombre": "Medialunas",
       "precio": "$350",
       "descripcion": "Dulces y esponjosas, perfectas para el desayuno o la merienda.",
-      "imagen": "src/img/medialunas.png"
+      "imagen": "src/img/medialunas.png",
+      "id": "2"
     },
     {
       "id": "3",
       "nombre": "Torta de chocolate",
       "precio": "$1200",
       "descripcion": "Bizcochuelo húmedo con cobertura de chocolate artesanal.",
-      "imagen": "https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80"
+      "imagen": "src/img/tortadechoco.png"
+    },
+    {
+      "nombre": "Facturas",
+      "precio": "$455",
+      "descripcion": "Ricas",
+      "imagen": "https://vinomanos.com/wp-content/uploads/2020/04/Facturas-de-panaderia-copia.jpg",
+      "id": "3065"
     }
   ]
 }

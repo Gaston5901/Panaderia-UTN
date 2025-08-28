@@ -146,7 +146,7 @@ const AdminPanel = () => {
       {/* Usuarios */}
       <h3 style={{marginTop:40}}>Usuarios</h3>
       <form className="admin-form" onSubmit={editUserId ? handleUserSave : handleUserAdd}>
-        <input name="username" placeholder="Correo o usuario" value={userForm.username} onChange={handleUserChange} />
+        <input name="username" placeholder="Usuario" value={userForm.username} onChange={handleUserChange} />
         <div style={{position:'relative',width:'100%'}}>
           <input name="password" placeholder="Contraseña" value={userForm.password} onChange={handleUserChange} type={showPass ? "text" : "password"} style={{width:'100%'}} />
           <button type="button" style={{position:'absolute',right:8,top:8,fontSize:12}} onClick={()=>setShowPass(v=>!v)} tabIndex={-1}>

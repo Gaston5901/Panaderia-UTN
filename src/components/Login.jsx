@@ -53,7 +53,7 @@ const Login = ({ onBack }) => {
       <form className="login-form" onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Correo electrónico"
+          placeholder="Usuario"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
