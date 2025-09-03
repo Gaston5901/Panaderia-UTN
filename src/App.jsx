@@ -1,8 +1,8 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./Home";
-import Login from "./components/Login";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminPanel from "./components/AdminPanel";
